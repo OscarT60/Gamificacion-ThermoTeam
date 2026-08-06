@@ -58,68 +58,6 @@ CREATE TABLE usuarios(
 );
 
 
-INSERT INTO usuarios (
-    correo,
-    contrasena,
-    rol,
-    estado
-)
-VALUES (
-    'admin@thermofisher.com',
-    'ThermoAdmin2026',
-    'administrador',
-    'activo'
-)
-RETURNING id_usuario;
-
-
-INSERT INTO perfiles (
-    id_usuario,
-    nombre,
-    apellidos,
-    edad,
-    id_equipo,
-    avatar_url
-)
-VALUES (
-    19,
-    'Administrador',
-    'General',
-    30,
-    7,
-    NULL
-);
-
-
-INSERT INTO usuarios (
-    correo,
-    contrasena,
-    rol,
-    estado
-)
-VALUES
-(
-    'guillermo.sanchez@thermofisher.com',
-    'ScFiTh6591',
-    'administrador',
-    'activo'
-),
-(
-    'nicole.solorzano@thermofisher.com',
-    'ScFiTh6591',
-    'administrador',
-    'activo'
-),
-(
-    'flavio.olivieri@thermofisher.com',
-    'ScFiTh6591',
-    'administrador',
-    'activo'
-);
-
-
-
-
 
 /*=========================================================
                 TABLA EQUIPOS
@@ -146,41 +84,6 @@ CREATE TABLE equipos(
         UNIQUE(nombre)
 
 );
-
-UPDATE equipos SET nombre = 'Amarok' WHERE id_equipo = 9;
-
-UPDATE equipos SET nombre = 'Crows' WHERE id_equipo = 10;
-
-UPDATE equipos SET nombre = 'Magma' WHERE id_equipo = 11;
-
-UPDATE equipos SET nombre = 'Vanguards' WHERE id_equipo = 12;
-
-UPDATE equipos SET nombre = 'Alebrijes' WHERE id_equipo = 13;
-
-UPDATE equipos SET nombre = 'Tiger Sharks' WHERE id_equipo = 14;
-
-UPDATE equipos SET nombre = 'Kairos' WHERE id_equipo = 15;
-
-UPDATE equipos SET nombre = 'Cloud Doges' WHERE id_equipo = 16;
-
-UPDATE equipos SET nombre = 'Team Rocket' WHERE id_equipo = 17;
-
-UPDATE equipos SET nombre = 'Camaleones' WHERE id_equipo = 18;
-
-UPDATE equipos SET nombre = 'Looney Tunes' WHERE id_equipo = 19;
-
-UPDATE equipos SET nombre = 'Dragonflies' WHERE id_equipo = 20;
-
-UPDATE equipos SET nombre = 'Saguaros' WHERE id_equipo = 24;
-
-UPDATE equipos SET nombre = 'Hippogriffs' WHERE id_equipo = 27;
-
-UPDATE equipos SET nombre = 'Unicorns' WHERE id_equipo = 28;
-
-INSERT INTO equipos (nombre, mascota)
-VALUES
-('IT COE MX Team', 'IT COE MX Team'),
-('Staff IT COE MX', 'Staff IT COE MX');
 
 
 ALTER TABLE equipos
@@ -231,44 +134,6 @@ CREATE TABLE perfiles(
 
 
 
-INSERT INTO perfiles
-(
-    id_usuario,
-    nombre,
-    apellidos,
-    edad,
-    id_equipo,
-    avatar_url
-)
-VALUES
-(
-    29,
-    'Guillermo',
-    'Sanchez',
-    30,
-    31,
-    NULL
-),
-(
-    30,
-    'Nicole',
-    'Solorzano',
-    30,
-    31,
-    NULL
-),
-(
-    31,
-    'Flavio',
-    'Olivieri',
-    30,
-    31,
-    NULL
-);
-
-
-
-
 
 /*=========================================================
             TABLA REGISTRO DE SESIÓN
@@ -304,24 +169,6 @@ CREATE TABLE registro_sesion(
 
 );
 
-INSERT INTO usuarios(correo, contrasena)
-VALUES('oscar@test.com','123456');
-
-INSERT INTO perfiles(
-id_usuario,
-nombre,
-apellidos,
-edad,
-id_equipo
-)
-VALUES(
-1,
-'Oscar',
-'Torres',
-22,
-1
-);
-
 /*=========================================================
                 TABLA MUNDOS
 =========================================================*/
@@ -350,11 +197,6 @@ CREATE TABLE mundos(
         UNIQUE(orden)
 
 );
-
-INSERT INTO mundos(nombre, descripcion, orden)
-VALUES
-('Seguridad','Capacitación de seguridad',1),
-('Calidad','Capacitación de calidad',2);
 
 /*=========================================================
                 TABLA NIVELES
@@ -390,10 +232,6 @@ CREATE TABLE niveles(
 
 );
 
-INSERT INTO niveles(id_mundo,nombre,orden)
-VALUES
-(1,'Nivel 1',1),
-(1,'Nivel 2',2);
 
 /*=========================================================
                 TABLA PREGUNTAS
@@ -431,18 +269,6 @@ CREATE TABLE preguntas(
 );
 
 
-INSERT INTO preguntas(
-    id_nivel,
-    caso,
-    pregunta,
-    dificultad
-)
-VALUES(
-    1,
-    'Un empleado entra al laboratorio sin lentes de seguridad.',
-    '¿Qué debe hacer primero?',
-    'Facil'
-);
 
 /*=========================================================
             TABLA OPCIONES_RESPUESTA
@@ -476,15 +302,6 @@ CREATE TABLE opciones_respuesta(
         UNIQUE(id_pregunta, orden)
 
 );
-
-INSERT INTO opciones_respuesta
-(id_pregunta, texto_opcion, orden, es_correcta)
-VALUES
-(1,'Colocarse los lentes de seguridad',1,TRUE),
-(1,'Entrar sin protección',2,FALSE),
-(1,'Esperar al supervisor',3,FALSE),
-(1,'Ignorar el procedimiento',4,FALSE);
-
 
 /*=========================================================
             TABLA RESPUESTAS_USUARIO
@@ -635,8 +452,6 @@ CREATE TABLE usuario_logro(
 
 );
 
-DELETE FROM equipos;
-DELETE FROM usuarios;
 
 
 /*=========================================================
@@ -704,7 +519,7 @@ CREATE TABLE ayudas_realizadas(
 
     fecha TIMESTAMP DEFAULT NOW(),
 
-    id_equipo INTEGER,
+    id_equipo BIGINT,
 
     CONSTRAINT ayudas_realizadas_pkey
         PRIMARY KEY(id_ayuda),
@@ -731,4 +546,88 @@ CREATE TABLE ayudas_realizadas(
 
 
 
+INSERT INTO usuarios (
+    correo,
+    contrasena,
+    rol,
+    estado
+)
+VALUES
+(
+    'admin@thermofisher.com',
+    'ThermoAdmin2026',
+    'administrador',
+    'activo'
+),
+(
+    'guillermo.sanchez@thermofisher.com',
+    'ScFiTh6591',
+    'administrador',
+    'activo'
+),
+(
+    'nicole.solorzano@thermofisher.com',
+    'ScFiTh6591',
+    'administrador',
+    'activo'
+),
+(
+    'flavio.olivieri@thermofisher.com',
+    'ScFiTh6591',
+    'administrador',
+    'activo'
+);
 
+INSERT INTO equipos (nombre, mascota)
+VALUES
+('Amarok', 'Amarok'),
+('Crows', 'Crows'),
+('Magma', 'Magma'),
+('Vanguards', 'Vanguards'),
+('Alebrijes', 'Alebrijes'),
+('Tiger Sharks', 'Tiger Sharks'),
+('Kairos', 'Kairos'),
+('Cloud Doges', 'Cloud Doges'),
+('Team Rocket', 'Team Rocket'),
+('Camaleones', 'Camaleones'),
+('Looney Tunes', 'Looney Tunes'),
+('Dragonflies', 'Dragonflies'),
+('Saguaros', 'Saguaros'),
+('Hippogriffs', 'Hippogriffs'),
+('Unicorns', 'Unicorns'),
+('IT COE MX Team', 'IT COE MX Team'),
+('Staff IT COE MX', 'Staff IT COE MX');
+
+INSERT INTO perfiles (
+    id_usuario,
+    nombre,
+    apellidos,
+    edad,
+    id_equipo,
+    avatar_url
+)
+VALUES
+(
+    (SELECT id_usuario FROM usuarios WHERE correo = 'guillermo.sanchez@thermofisher.com'),
+    'Guillermo',
+    'Sanchez',
+    30,
+    (SELECT id_equipo FROM equipos WHERE nombre = 'Staff IT COE MX'),
+    NULL
+),
+(
+    (SELECT id_usuario FROM usuarios WHERE correo = 'nicole.solorzano@thermofisher.com'),
+    'Nicole',
+    'Solorzano',
+    30,
+    (SELECT id_equipo FROM equipos WHERE nombre = 'Staff IT COE MX'),
+    NULL
+),
+(
+    (SELECT id_usuario FROM usuarios WHERE correo = 'flavio.olivieri@thermofisher.com'),
+    'Flavio',
+    'Olivieri',
+    30,
+    (SELECT id_equipo FROM equipos WHERE nombre = 'Staff IT COE MX'),
+    NULL
+);

@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: gamificacion_db
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Gamificacion123
+      POSTGRES_DB: gamificacion_v2
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./gamificacion_v2.sql:/docker-entrypoint-initdb.d/gamificacion_v2.sql
+
+  backend:
+    build: ./backend-gamificacion
+    container_name: gamificacion_backend
+    restart: always
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "3000:3000"
+
+    env_file:
+      - ./backend-gamificacion/.env.docker
+
+volumes:
+  postgres_data:

@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
-
+const bcrypt = require("bcrypt");
 const app = express();
 
 app.use(cors());
@@ -482,6 +482,7 @@ app.post("/registro", async (req, res) => {
 
         // Edad por defecto porque ya no existe en el formulario
         const edad = 21;
+        const contrasenaEncriptada = await bcrypt.hash(contrasena, 10);
 
         // Insertar usuario
         const usuario = await pool.query(
@@ -489,7 +490,7 @@ app.post("/registro", async (req, res) => {
             (correo, contrasena)
             VALUES ($1, $2)
             RETURNING id_usuario`,
-            [correo, contrasena]
+            [correo, contrasenaEncriptada]
         );
 
         const id_usuario = usuario.rows[0].id_usuario;
@@ -528,6 +529,7 @@ app.post("/login", async (req, res) => {
             `SELECT
                 u.id_usuario,
                 u.correo,
+                u.contrasena,
                 u.rol,
                 u.estado,
                 p.nombre,
@@ -536,9 +538,8 @@ app.post("/login", async (req, res) => {
              FROM usuarios u
              JOIN perfiles p
                 ON u.id_usuario = p.id_usuario
-             WHERE u.correo = $1
-             AND u.contrasena = $2`,
-            [correo, contrasena]
+             WHERE u.correo = $1`,
+            [correo]
         );
 
         if (resultado.rows.length === 0) {
@@ -547,9 +548,25 @@ app.post("/login", async (req, res) => {
             });
         }
 
+        const usuario = resultado.rows[0];
+
+        const coincide = await bcrypt.compare(
+            contrasena,
+            usuario.contrasena
+        );
+
+        if (!coincide) {
+            return res.status(401).json({
+                error: "Correo o contraseña incorrectos"
+            });
+        }
+
+        // No enviar el hash de la contraseña al cliente
+        delete usuario.contrasena;
+
         res.json({
             mensaje: "Login correcto",
-            ...resultado.rows[0]
+            ...usuario
         });
 
     } catch (error) {

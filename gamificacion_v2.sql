@@ -547,36 +547,31 @@ CREATE TABLE ayudas_realizadas(
 
 
 INSERT INTO usuarios (
-    correo,
-    contrasena,
-    rol,
-    estado
+correo,
+contrasena,
+rol,
+estado
 )
 VALUES
 (
-    'admin@thermofisher.com',
-    'ThermoAdmin2026',
-    'administrador',
-    'activo'
+'guillermo.sanchez@thermofisher.com',
+crypt('Guillermo2026!', gen_salt('bf')),
+'administrador',
+'activo'
 ),
 (
-    'guillermo.sanchez@thermofisher.com',
-    'ScFiTh6591',
-    'administrador',
-    'activo'
+'nicole.solorzano@thermofisher.com',
+crypt('Nicole2026!', gen_salt('bf')),
+'administrador',
+'activo'
 ),
 (
-    'nicole.solorzano@thermofisher.com',
-    'ScFiTh6591',
-    'administrador',
-    'activo'
-),
-(
-    'flavio.olivieri@thermofisher.com',
-    'ScFiTh6591',
-    'administrador',
-    'activo'
+'flavio.olivieri@thermofisher.com',
+crypt('Flavio2026!', gen_salt('bf')),
+'administrador',
+'activo'
 );
+
 
 INSERT INTO equipos (nombre, mascota)
 VALUES
